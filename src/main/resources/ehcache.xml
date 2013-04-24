@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         name="InfoUSA">
+
+    <diskStore path="java.io.tmpdir"/>
+
+    <terracottaConfig url="${terracottaConfig.url}"/>
+
+    <defaultCache
+            statistics="true"
+            maxElementsInMemory="0"
+            eternal="false"
+            overflowToDisk="true"
+            timeToIdleSeconds="1200"
+            timeToLiveSeconds="1200">
+    </defaultCache>
+
+    <cache name="InfoUSA"
+           statistics="true"
+           eternal="true"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="0"
+           maxElementsInMemory="1000"
+           maxEntriesInCache="15000000">
+
+        <terracotta consistency="eventual"/>
+
+        <searchable keys="false" values="false">
+            <searchAttribute name="city" expression="value.city"/>
+            <searchAttribute name="state" expression="value.state"/>
+            <searchAttribute name="zip" expression="value.zip"/>
+
+            <searchAttribute name="salesVol" expression="value.salesVol"/>
+            <searchAttribute name="numEmp" expression="value.numEmp"/>
+            <searchAttribute name="empSize" expression="value.empSize"/>
+            <searchAttribute name="sqft" expression="value.sqft"/>
+            <searchAttribute name="matchCode" expression="value.matchCode"/>
+
+            <searchAttribute name="x" expression="value.x"/>
+            <searchAttribute name="y" expression="value.y"/>
+            <searchAttribute name="geohash"
+                             class="com.esri.GeoHashExtractor"
+                             properties="xofs=${geohash.xofs},yofs=${geohash.yofs},cell=${geohash.cell}"/>
+        </searchable>
+    </cache>
+
+</ehcache>
